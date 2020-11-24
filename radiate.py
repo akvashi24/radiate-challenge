@@ -2,9 +2,6 @@
 
 import requests
 from PIL import Image
-import numpy
-
-from io import BytesIO
 
 def test_api():
     query_params = {
@@ -40,6 +37,7 @@ def get_bytes(size):
     print(res.text)
     pixels = res.content.split(b'\n')
     rgb = []
+    #TODO: this is no longer required
     for triplet in pixels:
         for value in triplet.split(b'\t'):
             rgb.append(value)

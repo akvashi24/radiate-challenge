@@ -8,7 +8,6 @@ pylint = "*"
 
 [packages]
 requests = "*"
-pandas = "*"
 pillow = "*"
 
 [requires]
