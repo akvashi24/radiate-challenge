@@ -1,4 +1,6 @@
 """Adin Vashi's Radiate coding challenge - 11/24/20 """
+import os
+import unittest
 
 import requests
 from PIL import Image
@@ -18,6 +20,10 @@ def test_api():
         print("There was an error with the API")
         print(res.status_code)
     print(res.text)
+
+def get_mock_bytes(size):
+    rgb_value_count = size * size * 3
+    return os.urandom(rgb_value_count)
 
 def get_bytes(size):
     rgb_value_count = size * size * 3
@@ -53,6 +59,21 @@ def generate_random(filename: str, size: int):
     image = Image.frombytes("RGB", (size, size), rgb)
     image.save(filename, "JPEG")
 
+def generate_random_test(filename: str, size: int):
+    rgb = b""
+    request_count = (size / 40) * 3
+    for _ in range(int(request_count)):
+        rgb = rgb + get_mock_bytes(40)
+    image = Image.frombytes("RGB", (size, size), rgb)
+    image.save(filename, "JPEG")
+
+class TestClass(unittest.TestCase):
+
+    def test_generate_random(self):
+        generate_random_test("./test_file.jpeg", 120)
+        self.assertTrue(os.path.exists("./test_file.jpeg"))
+
 
 if __name__ == "__main__":
+    unittest.main()
     generate_random("./generated_image.jpeg", 120)
